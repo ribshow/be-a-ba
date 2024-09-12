@@ -37,21 +37,28 @@ newGameButtonElem.addEventListener('click', () => {
     // alterando a visibilidade do erro para que não fique visível
     errorElem.style.visibility = 'hidden';
 
+    // limpa o contador de acertos
     streakElem.innerHTML = '';
 });
 
-document.getElementById("form").addEventListener('submit', (event) => {
+    // capturando o formulário, adicionando um ouvinte e disparando a função validateWord
+document.getElementById("form").addEventListener('submit', async (event) => {
     event.preventDefault();
 
     // pegando os dados do formulário
     const formData = new FormData(event.target);
+
+    // capturando a palavra digitada no input
     const word = formData.get('word');
 
-    const isWordValid = game.validateWord(word);
+    // passando a palavra digitada no input, verificando na função e guardando em uma constante
+    const isWordValid = await game.validateWord(word.toLocaleLowerCase());
 
+    // se a palavra for válida ele aumenta o contador e esconde a mensagem de erro
     if(isWordValid) {
         streakElem.innerHTML = game.streak;
         errorElem.style.visibility = 'hidden';
+    // se não for válida ele torna visível a mensagem de erro
     } else {
         errorElem.style.visibility = 'visible';
     }
