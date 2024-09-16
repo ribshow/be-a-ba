@@ -97,6 +97,27 @@ main {
 
 .streak {
     height: 40px;
-    width: 40px;
     font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: rgb(21, 167, 21);
+}
+
+@media (max-width: 600px) {
+    :root {
+        width: 100%;
+    }
+    
+    .square {
+        width: 70px;
+    }
+
+    .input {
+        width: 15rem;
+    }
+
+    .streak{
+        margin: 1rem;   
+    }
 }

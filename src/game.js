@@ -3,6 +3,10 @@ export const game = {
     letters: [],
     word: [],
     error: false,
+    messagesError: {
+        error1: 'A palavra digitada não existe!',
+        error2: 'A palavra já foi digitada!'
+    },
     streak: 0,
     inputedWords: [],
     newGame: function () {
@@ -38,13 +42,12 @@ export const game = {
             if(word.includes(this.letters[i]) === false){
                 this.error = true;
                 return false;
+            // Se a palavra digitada já estiver no array inputedWords, seta error como true e retorna a mensagem de erro que deve ser exibida no html
+            }else if(this.inputedWords.includes(word)){
+                this.error = true;
+                return this.messagesError.error2;
             }
-        }
-        
-        // se a palavra já tiver sido digitada, retorna o error
-        if(this.inputedWords.includes(word)) {
-            return false;
-        }
+        } 
 
         // consulta da api para verificar se a palavra existe
         const rawData = await fetch(`https://api.dicionario-aberto.net/word/${word}`);
@@ -61,6 +64,24 @@ export const game = {
         this.inputedWords.push(word);
         // incrementando o contador para contabilizar o número de palavras que foram acertadas
         this.streak ++;
+
+        // se todo o ciclo correr sem nenhuma interrupção retorna true validando a palavra
         return true;
+    },
+    endGame: async function(){
+        // limpando as letras
+        this.letters = [];
+
+        // limpando o array que recebe as palavras
+        this.inputedWords = [];
+
+         // limpando a palavra que estiver no input
+         this.word = [];
+
+         // limpando a mensagem do erro
+         this.error = false;
+ 
+         // inicializando o atributo streak
+         this.streak = 0;
     }
 }
